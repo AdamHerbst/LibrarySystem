@@ -19,9 +19,11 @@ public class Main {
 		String flag = "Y";
 		do {
 			printMenu();
+			char choice;
 			Scanner reader = new Scanner(System.in);
 			System.out.println("Enter a choice: ");
-			int n = reader.nextInt();
+			choice = reader.nextLine().charAt(0);
+		//	int n = reader.nextInt();
 			Connection c = null;
 			Statement stmt = null;
 
@@ -37,9 +39,9 @@ public class Main {
 
 				Scanner scanName;
 
-				switch (n) {
+				switch (choice) {
 
-				case 1:
+				case '1':
 
 					scanName = new Scanner(System.in);
 					System.out.println("Enter Book Name:");
@@ -54,7 +56,7 @@ public class Main {
 					System.out.println("Inserted Successfully!!!");
 					break;
 
-				case 2:
+				case '2':
 
 					System.out.println("Enter Book id:");
 					scanName = new Scanner(System.in);
@@ -72,7 +74,7 @@ public class Main {
 					System.out.println("Updated Successfully!!!");
 					break;
 
-				case 3:
+				case '3':
 
 					System.out.println("Enter Book id:");
 					scanName = new Scanner(System.in);
@@ -81,7 +83,7 @@ public class Main {
 					stmt.executeUpdate(sql);
 					System.out.println("Deleted Successfully!!!");
 					break;
-				case 4:
+				case '4':
 
 					ResultSet rs = stmt.executeQuery("SELECT * FROM Books;");
 					System.out.println("ID\t Book Name\t Author\t Qty ");
@@ -94,7 +96,7 @@ public class Main {
 					}
 					rs.close();
 					break;
-				case 5:
+				case '5':
 
 					scanName = new Scanner(System.in);
 					System.out.println("Enter Book Name:");
@@ -110,7 +112,7 @@ public class Main {
 					}
 					rs2.close();
 					break;
-				case 6:
+				case '6':
 
 					System.exit(0);
 					break;
