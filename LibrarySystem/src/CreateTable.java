@@ -1,3 +1,5 @@
+package edu.indwes;
+
 import java.sql.*;
 
 public class CreateTable {
@@ -14,19 +16,19 @@ try {
 
 Class.forName("org.sqlite.JDBC");
 
-c = DriverManager.getConnection("jdbc:sqlite:LibraryDB.db");
+c = DriverManager.getConnection("jdbc:sqlite:LibraryDB2.db");
 
 System.out.println("Database Opened...\n");
 
 stmt = c.createStatement();
 
-String sql = "CREATE TABLE Employees " +
+String sql = "CREATE TABLE Books" +
 
-"(p_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+"(book_id INTEGER PRIMARY KEY AUTOINCREMENT," +
 
 " book_name TEXT NOT NULL, " +
 
-" price REAL NOT NULL, " +
+" book_author TEXT NOT NULL, " +
 
 " quantity INTEGER) " ;
 
