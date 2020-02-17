@@ -39,7 +39,6 @@ class searchBooks {
 		} catch (Exception e) {
 			System.err.println("Exception! Something went wrong with the test!");
 			System.exit(0);
-
 		}
 	}
 }
