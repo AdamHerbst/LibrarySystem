@@ -1,16 +1,17 @@
 package indwes.libsys.functionalities;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
 
-public class FrontScreenApp {
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 
-	public JFrame frmLibrarianFunctions;
+public class UserInterface {
+
+	public JFrame UIFrame;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -19,9 +20,9 @@ public class FrontScreenApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrontScreenApp window = new FrontScreenApp();
-					window.frmLibrarianFunctions.setVisible(true);
-					
+					UserInterface window = new UserInterface();
+					window.UIFrame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -32,48 +33,55 @@ public class FrontScreenApp {
 	/**
 	 * Create the application.
 	 */
-	public FrontScreenApp() {
+	public UserInterface() {
 		initialize();
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the SBFrameCol.
 	 */
 	private void initialize() {
-		frmLibrarianFunctions = new JFrame();
-		frmLibrarianFunctions.setTitle("Librarian Functions");
-		frmLibrarianFunctions.setBounds(100, 100, 450, 339);
-		frmLibrarianFunctions.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmLibrarianFunctions.getContentPane().setLayout(null);
+		UIFrame = new JFrame();
+		UIFrame.setTitle("Librarian Functions");
+		UIFrame.setBounds(100, 100, 700, 800);
+		UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		UIFrame.getContentPane().setLayout(null);
 
 		// When button clicked, we will go to the add book window
 		JButton addBookButton = new JButton("Add Books");
 		addBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AddingBooks window = new AddingBooks();
-				window.frmAddNewBook.setVisible(true);
-				frmLibrarianFunctions.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				AddBook window = new AddBook();
+				window.AddFrame.setVisible(true);
+				UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 		});
 		addBookButton.setBounds(40, 41, 117, 50);
-		frmLibrarianFunctions.getContentPane().add(addBookButton);
+		UIFrame.getContentPane().add(addBookButton);
 
-		 JButton SearchViewBooksButton = new JButton("Search/View Books");
+		JButton SearchViewBooksButton = new JButton("Search/View Books");
+//       JFrame window3 = new JFrame();
 
-		    SearchViewBooksButton.addActionListener(new ActionListener() {
-		        public void actionPerformed(ActionEvent e) {
-		            SearchingBooks window = new SearchingBooks();
-		            window.createUI();
-		            window.frame.setVisible(true);
-		 
-		            frmLibrarianFunctions.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		        }
-		    });
-		    SearchViewBooksButton.setBounds(239, 130, 187, 61);
-		    frmLibrarianFunctions.getContentPane().add(SearchViewBooksButton);
+		SearchViewBooksButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SearchBooks window = new SearchBooks();
+				window.createUI();
+				window.SBFrameCol.setVisible(true);
+
+				UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+		});
+		SearchViewBooksButton.setBounds(239, 130, 187, 61);
+		UIFrame.getContentPane().add(SearchViewBooksButton);
 
 		JButton viewAccountButton = new JButton("View Account");
 		viewAccountButton.setBounds(45, 130, 146, 61);
-		frmLibrarianFunctions.getContentPane().add(viewAccountButton);
+		UIFrame.getContentPane().add(viewAccountButton);
+		
+		table = new JTable();
+		SearchBooks display = new SearchBooks();
+		display.createUI();
+		table.setBounds(137, 283, 441, 399);
+		UIFrame.getContentPane().add(table);
 	}
 }

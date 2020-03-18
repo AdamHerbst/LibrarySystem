@@ -7,26 +7,25 @@ import java.awt.*;
 import java.sql.*;
 import java.awt.event.*;
 
-public class SearchingBooks implements ActionListener {
-	JFrame frame, frame1;
+public class SearchBooks implements ActionListener {
+	JFrame SBFrameCol, SBFrameDisplay;
 	JTextField textbox;
 	JLabel label;
 	JButton button;
 	JPanel panel;
 	static JTable table;
 
-	
 	String driverName = "org.sqlite.JDBC";
 	String url = "jdbc:sqlite:LibraryDB2.db";
-	//String userName = "root";
-	//String password = "root";
-	
+	// String userName = "root";
+	// String password = "root";
+
 	String[] columnNames = { "Book ID", "Book Name", "Book Author", "Quantity" };
 
 	public void createUI() {
-		frame = new JFrame("Database Search Result");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(null);
+		SBFrameCol = new JFrame("Database Search Result");
+		SBFrameCol.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		SBFrameCol.setLayout(null);
 		textbox = new JTextField();
 		textbox.setBounds(400, 130, 250, 30);
 		label = new JLabel("Enter A Book Name or Author Name");
@@ -35,11 +34,11 @@ public class SearchingBooks implements ActionListener {
 		button.setBounds(220, 200, 150, 20);
 		button.addActionListener(this);
 
-		frame.add(textbox);
-		frame.add(label);
-		frame.add(button);
-		frame.setVisible(true);
-		frame.setSize(700, 400);
+		SBFrameCol.add(textbox);
+		SBFrameCol.add(label);
+		SBFrameCol.add(button);
+		SBFrameCol.setVisible(true);
+		SBFrameCol.setSize(700, 400);
 	}
 
 	public void actionPerformed(ActionEvent ae) {
@@ -50,14 +49,13 @@ public class SearchingBooks implements ActionListener {
 
 	public void showTableData() {
 
-		frame1 = new JFrame("Database Search Result");
-		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame1.setLayout(new BorderLayout());
-//TableModel tm = new TableModel();
+		SBFrameDisplay = new JFrame("Database Search Result");
+		SBFrameDisplay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		SBFrameDisplay.setLayout(new BorderLayout());
+
 		DefaultTableModel model = new DefaultTableModel();
 		model.setColumnIdentifiers(columnNames);
-//DefaultTableModel model = new DefaultTableModel(tm.getData1(), tm.getColumnNames()); 
-//table = new JTable(model);
+
 		table = new JTable();
 		table.setModel(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -73,7 +71,8 @@ public class SearchingBooks implements ActionListener {
 		try {
 			Class.forName(driverName);
 			Connection con = DriverManager.getConnection(url);
-			String sql = "SELECT * FROM Books WHERE (book_name LIKE '%" + textvalue + "%') OR (book_author LIKE '%" + textvalue + "%');";
+			String sql = "SELECT * FROM Books WHERE (book_name LIKE '%" + textvalue + "%') OR (book_author LIKE '%"
+					+ textvalue + "%');";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			int i = 0;
@@ -81,7 +80,7 @@ public class SearchingBooks implements ActionListener {
 				bID = rs.getString("book_id");
 				bName = rs.getString("book_name");
 				aName = rs.getString("book_author");
-				quantity= rs.getString("quantity");
+				quantity = rs.getString("quantity");
 				model.addRow(new Object[] { bID, bName, aName, quantity });
 				i++;
 			}
@@ -96,13 +95,13 @@ public class SearchingBooks implements ActionListener {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		frame1.add(scroll);
-		frame1.setVisible(true);
-		frame1.setSize(400, 300);
+		SBFrameDisplay.add(scroll);
+		SBFrameDisplay.setVisible(true);
+		SBFrameDisplay.setSize(400, 300);
 	}
 
 	public static void main(String args[]) {
-		SearchingBooks sr = new SearchingBooks();
+		SearchBooks sr = new SearchBooks();
 		sr.createUI();
 	}
 }

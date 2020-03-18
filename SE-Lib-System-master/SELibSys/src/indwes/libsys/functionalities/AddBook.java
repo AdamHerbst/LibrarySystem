@@ -1,34 +1,26 @@
 package indwes.libsys.functionalities;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Font;
-import javax.swing.UIManager;
+import java.awt.Button;
 import java.awt.Color;
-import java.awt.event.ActionListener;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.TextField;
-import java.awt.Button;
+import indwes.libsys.dao.LibraryDAO;
+import indwes.libsys.main.SqlConnection;
 
-import indwes.libsys.dao.LibraryDao;
-import indwes.libsys.main.*;
-import java.util.Scanner;
-import java.sql.*;
-import java.awt.SystemColor;
-import java.awt.Window.Type;
-import javax.swing.JToolBar;
-
-import javax.swing.JFrame;
-
-public class AddingBooks {
+public class AddBook {
 	// This window needs to be open accessible to other classes
-		public JFrame frmAddNewBook;
+		public JFrame AddFrame;
 
 		/**
 		 * Launch the application.
@@ -39,8 +31,8 @@ public class AddingBooks {
 					try {
 						
 						// Create object of addingBooks
-						AddingBooks window = new AddingBooks();
-						window.frmAddNewBook.setVisible(true); // Set frame visible true
+						AddBook window = new AddBook();
+						window.AddFrame.setVisible(true); // Set frame visible true
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -55,7 +47,7 @@ public class AddingBooks {
 		// Adding the connection.
 		Connection connection = null;
 		
-		public AddingBooks() {
+		public AddBook() {
 			initialize();
 			connection = SqlConnection.dbConnect(); // Calling the connection class (database)
 		}
@@ -65,20 +57,20 @@ public class AddingBooks {
 		 */
 		private void initialize() {
 			
-			frmAddNewBook = new JFrame("Add New Book");
-			frmAddNewBook.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frmAddNewBook.setForeground(Color.BLACK);
-			frmAddNewBook.getContentPane().setBackground(new Color(227, 228, 230));
-			frmAddNewBook.getContentPane().setForeground(new Color(192, 192, 192));
-			frmAddNewBook.setBounds(100, 100, 450, 339);
-			frmAddNewBook.getContentPane().setLayout(null);
+			AddFrame = new JFrame("Add New Book");
+			AddFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			AddFrame.setForeground(Color.BLACK);
+			AddFrame.getContentPane().setBackground(new Color(227, 228, 230));
+			AddFrame.getContentPane().setForeground(new Color(192, 192, 192));
+			AddFrame.setBounds(100, 100, 450, 339);
+			AddFrame.getContentPane().setLayout(null);
 			
 			JLabel bookInfoLabel = new JLabel("Book Information");
 			bookInfoLabel.setFont(new Font("Lato Light", Font.BOLD, 37));
 			bookInfoLabel.setForeground(new Color(255, 140, 0));
 			bookInfoLabel.setBackground(new Color(32, 178, 170));
 			bookInfoLabel.setBounds(104, 12, 334, 34);
-			frmAddNewBook.getContentPane().add(bookInfoLabel);
+			AddFrame.getContentPane().add(bookInfoLabel);
 			
 			
 			JLabel nameOfBookLabel = new JLabel("Name:");
@@ -86,49 +78,49 @@ public class AddingBooks {
 			nameOfBookLabel.setForeground(new Color(0, 0, 0));
 			nameOfBookLabel.setBackground(new Color(211, 211, 211));
 			nameOfBookLabel.setBounds(12, 123, 91, 34);
-			frmAddNewBook.getContentPane().add(nameOfBookLabel);
+			AddFrame.getContentPane().add(nameOfBookLabel);
 			
 			JLabel authorOfBookLabel = new JLabel("Author:");
 			authorOfBookLabel.setFont(new Font("Dialog", Font.BOLD, 20));
 			authorOfBookLabel.setForeground(new Color(0, 0, 0));
 			authorOfBookLabel.setBackground(new Color(211, 211, 211));
 			authorOfBookLabel.setBounds(12, 169, 102, 34);
-			frmAddNewBook.getContentPane().add(authorOfBookLabel);
+			AddFrame.getContentPane().add(authorOfBookLabel);
 			
 			JLabel quantityofBookLabel = new JLabel("Quantity:");
 			quantityofBookLabel.setFont(new Font("Dialog", Font.BOLD, 20));
 			quantityofBookLabel.setForeground(new Color(0, 0, 0));
 			quantityofBookLabel.setBackground(new Color(211, 211, 211));
 			quantityofBookLabel.setBounds(12, 215, 114, 34);
-			frmAddNewBook.getContentPane().add(quantityofBookLabel);
+			AddFrame.getContentPane().add(quantityofBookLabel);
 			
 			JLabel IDofBookLabel = new JLabel("ID:");
 			IDofBookLabel.setFont(new Font("Dialog", Font.BOLD, 20));
 			IDofBookLabel.setForeground(new Color(0, 0, 0));
 			IDofBookLabel.setBackground(new Color(211, 211, 211));
 			IDofBookLabel.setBounds(12, 77, 91, 34);
-			frmAddNewBook.getContentPane().add(IDofBookLabel);
+			AddFrame.getContentPane().add(IDofBookLabel);
 			
 			
 			TextField txtFieldforID = new TextField();
 			txtFieldforID.setFont(new Font("Georgia", Font.PLAIN, 24));
 			txtFieldforID.setBounds(134, 77, 289, 34);
-			frmAddNewBook.getContentPane().add(txtFieldforID);
+			AddFrame.getContentPane().add(txtFieldforID);
 			
 			TextField txtFieldforName = new TextField();
 			txtFieldforName.setFont(new Font("Georgia", Font.PLAIN, 24));
 			txtFieldforName.setBounds(134, 123, 289, 34);
-			frmAddNewBook.getContentPane().add(txtFieldforName);
+			AddFrame.getContentPane().add(txtFieldforName);
 			
 			TextField txtFieldforAuthor = new TextField();
 			txtFieldforAuthor.setFont(new Font("Georgia", Font.PLAIN, 24));
 			txtFieldforAuthor.setBounds(134, 163, 289, 34);
-			frmAddNewBook.getContentPane().add(txtFieldforAuthor);
+			AddFrame.getContentPane().add(txtFieldforAuthor);
 			
 			TextField txtFieldforQuantity = new TextField();
 			txtFieldforQuantity.setFont(new Font("Georgia", Font.PLAIN, 24));
 			txtFieldforQuantity.setBounds(134, 209, 289, 34);
-			frmAddNewBook.getContentPane().add(txtFieldforQuantity);
+			AddFrame.getContentPane().add(txtFieldforQuantity);
 			
 			Button AddNewBookButton = new Button("Add New Book");
 			AddNewBookButton.addActionListener(new ActionListener() {
@@ -142,7 +134,7 @@ public class AddingBooks {
 						 String quantity = txtFieldforQuantity.getText();
 						 int bookQuantity = Integer.parseInt(quantity);
 						 
-						 int x = LibraryDao.addBook(bookID, bookName, bookAuthor, bookQuantity);
+						 int x = LibraryDAO.addBook(bookID, bookName, bookAuthor, bookQuantity);
 						 if (x > 0) {
 							 JOptionPane.showMessageDialog(null, "Book has been successfully added!");
 						 }
@@ -157,7 +149,7 @@ public class AddingBooks {
 				}
 			});
 			AddNewBookButton.setBounds(134, 265, 189, 34);
-			frmAddNewBook.getContentPane().add(AddNewBookButton);
+			AddFrame.getContentPane().add(AddNewBookButton);
 			AddNewBookButton.setForeground(Color.WHITE);
 			AddNewBookButton.setFont(new Font("Georgia", Font.PLAIN, 24));
 			AddNewBookButton.setBackground(SystemColor.desktop);
@@ -165,13 +157,13 @@ public class AddingBooks {
 			JButton backButton = new JButton("<");
 			backButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					FrontScreenApp window = new FrontScreenApp();
-					window.frmLibrarianFunctions.setVisible(true);
+					UserInterface window = new UserInterface();
+					window.UIFrame.setVisible(true);
 				}
 			});
 			backButton.setFont(new Font("Georgia", Font.BOLD, 20));
 			backButton.setBounds(12, 12, 53, 34);
-			frmAddNewBook.getContentPane().add(backButton);
+			AddFrame.getContentPane().add(backButton);
 			
 			
 			

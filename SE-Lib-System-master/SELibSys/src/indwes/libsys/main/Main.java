@@ -1,28 +1,19 @@
 package indwes.libsys.main;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
 
-import javax.swing.JFrame;
-
-import java.sql.*;
-import javax.swing.*;
-import java.awt.EventQueue;
-
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import indwes.libsys.dao.LibraryDao;
-import indwes.libsys.functionalities.FrontScreenApp;
-import indwes.libsys.main.SqlConnection;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import java.util.Scanner;
-import java.sql.*;
+import indwes.libsys.dao.LibraryDAO;
+import indwes.libsys.functionalities.UserInterface;
 
 public class Main {
 
@@ -90,11 +81,11 @@ public class Main {
 					 String password = txtFieldPassword.getText();
 					 
 					 // FUnctionality is included in the LibraryDao class
-					int x = LibraryDao.login(username, password);
+					int x = LibraryDAO.login(username, password);
 					if (x > 0) {
 						 JOptionPane.showMessageDialog(null, "Username and password are correct!");
-						 FrontScreenApp window = new FrontScreenApp();
-						window.frmLibrarianFunctions.setVisible(true);
+						 UserInterface window = new UserInterface();
+						window.UIFrame.setVisible(true);
 
 					 }
 					 else {

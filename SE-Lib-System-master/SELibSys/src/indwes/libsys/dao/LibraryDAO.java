@@ -1,16 +1,10 @@
 package indwes.libsys.dao;
-import java.awt.BorderLayout;
-import java.sql.*;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import indwes.libsys.main.SqlConnection;
 
-public class LibraryDao {
+public class LibraryDAO {
 	
 Connection connection = null;
 	
