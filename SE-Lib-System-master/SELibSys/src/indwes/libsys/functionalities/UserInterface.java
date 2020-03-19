@@ -3,10 +3,21 @@ package indwes.libsys.functionalities;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import indwes.libsys.main.SqlConnection;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JTextField;
 
 public class UserInterface {
 
@@ -29,6 +40,13 @@ public class UserInterface {
 			}
 		});
 	}
+
+	Connection connection = null;
+	// String driverName = "org.sqlite.JDBC";
+	// String url = "jdbc:sqlite:LibraryDB2.db";
+
+	// Connection dbConnection;
+	private JTextField textvalue;
 
 	/**
 	 * Create the application.
@@ -56,32 +74,63 @@ public class UserInterface {
 				UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 		});
-		addBookButton.setBounds(40, 41, 117, 50);
+		addBookButton.setBounds(48, 39, 143, 51);
 		UIFrame.getContentPane().add(addBookButton);
 
 		JButton SearchViewBooksButton = new JButton("Search/View Books");
-//       JFrame window3 = new JFrame();
-
+// 
+		
+		textvalue = new JTextField();
+		textvalue.setBounds(243, 201, 302, 45);
+		UIFrame.add(textvalue);
+		textvalue.setColumns(10);
+		
+	//	String textSQL = textvalue.getText();
+		
+		connection = SqlConnection.dbConnect();
 		SearchViewBooksButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchBooks window = new SearchBooks();
-				window.createUI();
-				window.SBFrameCol.setVisible(true);
+				
+				//String sql = "SELECT * FROM Books";
+				String sql = "SELECT * FROM Books WHERE (book_name LIKE '%" + textvalue.getText()+ "%') OR (book_author LIKE '%" + textvalue.getText()+ "%');";
+				try {
 
-				UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					PreparedStatement statement = connection.prepareStatement(sql);
+					ResultSet rs = statement.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+
+//					int i = 0;
+//					while (rs.next()) {
+//						String bID = rs.getString("book_id");
+//						String bName = rs.getString("book_name");
+//						String aName = rs.getString("book_author");
+//						String quantity = rs.getString("quantity");
+//						//rs.addRow(new Object[] { bID, bName, aName, quantity });
+//						i++;
+//					}
+
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		SearchViewBooksButton.setBounds(239, 130, 187, 61);
+		SearchViewBooksButton.setBounds(286, 92, 187, 61);
 		UIFrame.getContentPane().add(SearchViewBooksButton);
 
 		JButton viewAccountButton = new JButton("View Account");
 		viewAccountButton.setBounds(45, 130, 146, 61);
 		UIFrame.getContentPane().add(viewAccountButton);
-		
+
+		// dbConnection = SqlConnection.dbConnect();
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(48, 283, 594, 462);
+		UIFrame.getContentPane().add(scrollPane);
+
 		table = new JTable();
-		SearchBooks display = new SearchBooks();
-		display.createUI();
-		table.setBounds(137, 283, 441, 399);
-		UIFrame.getContentPane().add(table);
+		scrollPane.setViewportView(table);
+
+
 	}
 }
