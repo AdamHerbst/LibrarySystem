@@ -1,23 +1,26 @@
 package indwes.libsys.functionalities;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import indwes.libsys.main.SqlConnection;
 import net.proteanit.sql.DbUtils;
-
-import javax.swing.JTextField;
 
 public class UserInterface {
 
@@ -42,14 +45,10 @@ public class UserInterface {
 	}
 
 	Connection connection = null;
-	// String driverName = "org.sqlite.JDBC";
-	// String url = "jdbc:sqlite:LibraryDB2.db";
-
-	// Connection dbConnection;
 	private JTextField textvalue;
 
 	/**
-	 * Create the application.
+	 * Constructor Create the application.
 	 */
 	public UserInterface() {
 		initialize();
@@ -60,13 +59,17 @@ public class UserInterface {
 	 */
 	private void initialize() {
 		UIFrame = new JFrame();
+		UIFrame.getContentPane().setBackground(Color.WHITE);
 		UIFrame.setTitle("Librarian Functions");
-		UIFrame.setBounds(100, 100, 700, 800);
+		UIFrame.setBounds(250, 400, 700, 800);
 		UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UIFrame.getContentPane().setLayout(null);
 
 		// When button clicked, we will go to the add book window
-		JButton addBookButton = new JButton("Add Books");
+		// *****************************************************
+		// ADD BOOKS BUTTON
+		// *****************************************************
+		JButton addBookButton = new JButton("Add Book");
 		addBookButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AddBook window = new AddBook();
@@ -74,63 +77,113 @@ public class UserInterface {
 				UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 		});
-		addBookButton.setBounds(48, 39, 143, 51);
+		addBookButton.setBounds(447, 102, 143, 51);
 		UIFrame.getContentPane().add(addBookButton);
 
+		// When button clicked, will display all books in database
+		// *****************************************************
+		// Search/View BOOKS BUTTON
+		// *****************************************************
+
 		JButton SearchViewBooksButton = new JButton("Search/View Books");
-// 
-		
 		textvalue = new JTextField();
-		textvalue.setBounds(243, 201, 302, 45);
-		UIFrame.add(textvalue);
+		textvalue.setBounds(70, 205, 302, 45);
+		UIFrame.getContentPane().add(textvalue);
 		textvalue.setColumns(10);
-		
-	//	String textSQL = textvalue.getText();
-		
 		connection = SqlConnection.dbConnect();
 		SearchViewBooksButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				//String sql = "SELECT * FROM Books";
-				String sql = "SELECT * FROM Books WHERE (book_name LIKE '%" + textvalue.getText()+ "%') OR (book_author LIKE '%" + textvalue.getText()+ "%');";
+				// Actual SQL SELECT statement
+				String sql = "SELECT * FROM Books WHERE (book_name LIKE '%" + textvalue.getText()
+						+ "%') OR (book_author LIKE '%" + textvalue.getText() + "%');";
 				try {
-
 					PreparedStatement statement = connection.prepareStatement(sql);
 					ResultSet rs = statement.executeQuery();
 					table.setModel(DbUtils.resultSetToTableModel(rs));
-
-//					int i = 0;
-//					while (rs.next()) {
-//						String bID = rs.getString("book_id");
-//						String bName = rs.getString("book_name");
-//						String aName = rs.getString("book_author");
-//						String quantity = rs.getString("quantity");
-//						//rs.addRow(new Object[] { bID, bName, aName, quantity });
-//						i++;
-//					}
-
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
-		SearchViewBooksButton.setBounds(286, 92, 187, 61);
+		SearchViewBooksButton.setBounds(135, 161, 179, 32);
 		UIFrame.getContentPane().add(SearchViewBooksButton);
 
+		// When button clicked goes to account signup/Login
+		// *****************************************************
+		// ADD BOOKS BUTTON
+		// *****************************************************
+
 		JButton viewAccountButton = new JButton("View Account");
-		viewAccountButton.setBounds(45, 130, 146, 61);
+		viewAccountButton.setBounds(12, 29, 146, 61);
 		UIFrame.getContentPane().add(viewAccountButton);
 
-		// dbConnection = SqlConnection.dbConnect();
-
+		//
+		// *****************************************************
+		// scrollpane declared. Has mouse listener
+		// *****************************************************
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+		});
 		scrollPane.setBounds(48, 283, 594, 462);
 		UIFrame.getContentPane().add(scrollPane);
-
 		table = new JTable();
 		scrollPane.setViewportView(table);
-
+		// When button clicked, book is deleted from GUI
+		// *****************************************************
+		// DELETE BOOKS BUTTON
+		// *****************************************************
+		JButton deleteBookBtn = new JButton("Delete A Book");
+		deleteBookBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if (row != -1) {
+					int modelRow = table.convertRowIndexToModel(row);
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					String selected = model.getValueAt(row, 0).toString();
+					model.removeRow(modelRow);
+					Connection cn = SqlConnection.dbConnect();
+					Statement stat = null;
+					try {
+						stat = cn.createStatement();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String sql = "DELETE FROM Books WHERE book_id ='" + selected + "'";
+					try {
+						stat.executeUpdate(sql);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						cn.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		deleteBookBtn.setBounds(447, 29, 146, 61);
+		UIFrame.getContentPane().add(deleteBookBtn);
+		// When button clicked, we will go to the add book window
+		// *****************************************************
+		// UPDATE BOOKS BUTTON
+		// *****************************************************
+		JButton updateBookBtn = new JButton("Update Book");
+		updateBookBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		updateBookBtn.setBounds(447, 175, 143, 51);
+		UIFrame.getContentPane().add(updateBookBtn);
 
 	}
 }
