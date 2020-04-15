@@ -159,18 +159,27 @@ public class LibrarianView {
 				update();
 			}
 		});
-		updateButton.setBounds(543, 85, 86, 35);
+		updateButton.setBounds(491, 85, 86, 35);
 		UIFrame.getContentPane().add(updateButton);
-		
+
 		JButton clearButton = new JButton("Clear");
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				clearFields();
 			}
 		});
-		clearButton.setBounds(396, 85, 86, 35);
+		clearButton.setBounds(361, 85, 86, 35);
 		UIFrame.getContentPane().add(clearButton);
-
+		
+		JButton viewUsersButton = new JButton("View Users");
+		viewUsersButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				printUsers();
+			}
+	});
+		
+		viewUsersButton.setBounds(614, 85, 114, 35);
+		UIFrame.getContentPane().add(viewUsersButton);
 	}
 
 	// *****************************************************
@@ -297,7 +306,7 @@ public class LibrarianView {
 		}
 		updateTable();
 	}
-	
+
 	// *****************************************************
 	// UPDATE TABLE AFTER MODIFYING IT
 	// *****************************************************
@@ -318,6 +327,26 @@ public class LibrarianView {
 
 	}
 	
+	// *****************************************************
+	// SHOW CURRENT USERS IN SYSTEM
+	// *****************************************************
+
+	private void printUsers() {
+
+		try {
+			String sql = "select user_ID, Username from Users";
+			PreparedStatement pst = connection.prepareStatement(sql);
+
+			ResultSet rs = pst.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	// *****************************************************
 	// CLEAR TEXT FIELDS AFTER REMOVE
 	// *****************************************************

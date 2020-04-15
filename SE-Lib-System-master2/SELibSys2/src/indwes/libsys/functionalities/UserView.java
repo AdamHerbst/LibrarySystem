@@ -1,24 +1,25 @@
 package indwes.libsys.functionalities;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import indwes.libsys.main.SqlConnection;
 import net.proteanit.sql.DbUtils;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.awt.event.ActionEvent;
 
 public class UserView {
 
@@ -61,7 +62,7 @@ public class UserView {
 	private void initialize() {
 		UIFrame = new JFrame();
 		UIFrame.setTitle("User View");
-		UIFrame.setBounds(100, 100, 788, 561);
+		UIFrame.setBounds(100, 100, 929, 561);
 		UIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UIFrame.getContentPane().setLayout(null);
 		
@@ -105,7 +106,7 @@ public class UserView {
 		UIFrame.setVisible(true);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(37, 137, 691, 365);
+		scrollPane.setBounds(37, 137, 839, 365);
 		UIFrame.getContentPane().add(scrollPane);
 		table = new JTable();
 		scrollPane.setViewportView(table);
@@ -115,7 +116,7 @@ public class UserView {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		checkoutButton.setBounds(313, 25, 106, 42);
+		checkoutButton.setBounds(799, 68, 106, 42);
 		UIFrame.getContentPane().add(checkoutButton);
 		
 		JButton searchButton = new JButton("Search");
@@ -124,11 +125,11 @@ public class UserView {
 				search();
 			}
 		});
-		searchButton.setBounds(323, 81, 99, 42);
+		searchButton.setBounds(331, 68, 99, 42);
 		UIFrame.getContentPane().add(searchButton);
 		
 		JButton returnButton = new JButton("Return");
-		returnButton.setBounds(661, 25, 103, 42);
+		returnButton.setBounds(684, 68, 103, 42);
 		UIFrame.getContentPane().add(returnButton);
 		
 		JButton clearButton = new JButton("Clear");
@@ -137,8 +138,10 @@ public class UserView {
 				clearFields();
 			}
 		});
-		clearButton.setBounds(443, 25, 99, 42);
+		clearButton.setBounds(458, 68, 99, 42);
 		UIFrame.getContentPane().add(clearButton);
+		
+		
 
 		// *****************************************************
 		// MY BOOKS
@@ -146,11 +149,20 @@ public class UserView {
 				
 
 		JButton myBooksButton = new JButton("My Books");
-		myBooksButton.setBounds(554, 25, 103, 42);
+		myBooksButton.setBounds(569, 68, 103, 42);
 		UIFrame.getContentPane().add(myBooksButton);
+		
+		JLabel lblWelcome = new JLabel("Welcome:");
+		lblWelcome.setBounds(376, 12, 80, 15);
+		UIFrame.getContentPane().add(lblWelcome);
+		
+
+//		JLabel lblUser = new Jl("User");
+//		lblUser.setBounds(491, 12, 336, 15);
+//		UIFrame.getContentPane().add(lblUser);
 	
 	}
-	
+
 	
 	public void search() {
 		try {
@@ -179,25 +191,44 @@ public class UserView {
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, ex);
 		}
-	}
-	
-	public void returnBook() {
-		
-		
-		
-	}
 	
 	
 	// *****************************************************
 	// CLEAR TEXT FIELDS
 	// *****************************************************
+
+	
+	// *****************************************************
+	table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		@Override
+		public void valueChanged(ListSelectionEvent event) {
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			int selectedRow = table.getSelectedRow();
+			if (selectedRow > -1) {
+				bookIDTxtField.setText(model.getValueAt(selectedRow, 0).toString());
+				bookTitleTxtField.setText(model.getValueAt(selectedRow, 1).toString());
+				authorNameTxtField.setText(model.getValueAt(selectedRow, 2).toString());
+				quantityTxtField.setText(model.getValueAt(selectedRow, 3).toString());
+
+			}
+		}
+
+	});
+}
 	public void clearFields() {
 		bookIDTxtField.setText(null);
 		bookTitleTxtField.setText(null);
 		authorNameTxtField.setText(null);
 		quantityTxtField.setText(null);
 	}
+	
+//	public static void getUserName(String username) {
+//		lblUser = new JLabel();
+//		lblUser.setText(username);
+//
+//	}
 }
+
 
 
 

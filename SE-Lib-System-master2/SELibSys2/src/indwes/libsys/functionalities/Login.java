@@ -56,37 +56,41 @@ public class Login {
 	private void initialize() {
 		frmLogin = new JFrame();
 		frmLogin.setTitle("Library Management System");
-		frmLogin.setBounds(100, 100, 516, 312);
+		frmLogin.setBounds(100, 100, 674, 444);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(null);
 		
 		JLabel usernameLabel = new JLabel("Username");
-		usernameLabel.setBounds(80, 65, 90, 15);
+		usernameLabel.setBounds(169, 170, 90, 15);
 		frmLogin.getContentPane().add(usernameLabel);
 		
 		JLabel passwordLabel = new JLabel("Password");
-		passwordLabel.setBounds(70, 142, 70, 15);
+		passwordLabel.setBounds(169, 248, 70, 15);
 		frmLogin.getContentPane().add(passwordLabel);
 		
 		txtFieldUsername = new JTextField();
-		txtFieldUsername.setBounds(212, 42, 192, 31);
+		txtFieldUsername.setBounds(299, 162, 192, 31);
 		frmLogin.getContentPane().add(txtFieldUsername);
 		txtFieldUsername.setColumns(10);
 		
 		
 		JCheckBox checkboxlibrarian = new JCheckBox("Librarian?");
-		checkboxlibrarian.setBounds(70, 161, 129, 23);
+		checkboxlibrarian.setBounds(157, 281, 129, 23);
 		frmLogin.getContentPane().add(checkboxlibrarian);
 		checkboxlibrarian.setSelected(true);
 		
 		JButton LoginButton = new JButton("Login");
+		LoginButton.setBounds(177, 331, 117, 25);
 		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
 					 String username = txtFieldUsername.getText();
 					 String password = txtFieldPassword.getText();
-					 
+			
+//						UserView.getUserName(username);
+				
+					
 					 // Functionality is included in the LibraryDao class
 					boolean x = LibraryDao.login(username, password);
 					if (x == true && checkboxlibrarian.isSelected()) {
@@ -94,16 +98,19 @@ public class Login {
 						 LibrarianView window = new LibrarianView();
 						window.UIFrame.setVisible(true);
 
+
 					 }
 					else if(x == true && !checkboxlibrarian.isSelected()) {
 						 JOptionPane.showMessageDialog(null, "Username and password are correct!");
 						 UserView window = new UserView();
 						window.UIFrame.setVisible(true);
+					
 
 					 }
 					 else {
 						 JOptionPane.showMessageDialog(null, "Username and password are not correct! Please try again.");
 					}
+				
 				}
 				
 				catch(Exception e) {
@@ -112,26 +119,34 @@ public class Login {
 				
 				
 			}});
-		LoginButton.setBounds(90, 211, 117, 25);
 		frmLogin.getContentPane().add(LoginButton);
 		
 
 		
 		createAccountButton = new JButton("Sign up");
+		createAccountButton.setBounds(360, 331, 154, 25);
 		createAccountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CreateAccount window = new CreateAccount();
 				window.frmCreateANew.setVisible(true);
 			}
 		});
-		createAccountButton.setBounds(273, 211, 154, 25);
 		frmLogin.getContentPane().add(createAccountButton);
 		
 		txtFieldPassword = new JPasswordField();
+		txtFieldPassword.setBounds(299, 240, 192, 31);
 		txtFieldPassword.setEchoChar('#');
-		txtFieldPassword.setBounds(212, 120, 192, 31);
 		frmLogin.getContentPane().add(txtFieldPassword);
 		txtFieldPassword.setColumns(10);
+		
+		JLabel lblWelcome = new JLabel("Welcome to the Library!");
+		lblWelcome.setFont(new Font("Serif", Font.BOLD, 30));
+		lblWelcome.setBounds(133, 12, 423, 31);
+		frmLogin.getContentPane().add(lblWelcome);
+		
+		JLabel lblSignIn = new JLabel("Please sign in or sign up to browse and check out books.");
+		lblSignIn.setBounds(138, 80, 498, 15);
+		frmLogin.getContentPane().add(lblSignIn);
 
 		
 
