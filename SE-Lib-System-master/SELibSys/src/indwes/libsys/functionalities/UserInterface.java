@@ -7,16 +7,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
 import indwes.libsys.main.SqlConnection;
@@ -111,7 +114,7 @@ public class UserInterface {
 
 		// When button clicked goes to account signup/Login
 		// *****************************************************
-		// ADD BOOKS BUTTON
+		//  VIEW ACCOUNT BUTTON
 		// *****************************************************
 
 		JButton viewAccountButton = new JButton("View Account");
@@ -185,5 +188,63 @@ public class UserInterface {
 		updateBookBtn.setBounds(447, 175, 143, 51);
 		UIFrame.getContentPane().add(updateBookBtn);
 
+		//**************************
+		// EDIT/UPDATE WITH CELL
+		//**************************
+		
+		
+	/*	AbstractAction action = new AbstractAction()
+		{
+		    public void actionPerformed(ActionEvent e)
+		    {
+		    	if (e.getType() == TableModelEvent.UPDATE)
+		    	{
+	
+		
+		int col=table.getSelectedColumn();
+		int row=table.getSelectedRow();
+		//do the update query on this row
+		  
+		try {
+					
+			
+			Connection cn = SqlConnection.dbConnect();
+		           PreparedStatement ps = cn.prepareStatement("UPDATE Books SET book_id = ?,book_name = ?,book_author = ?, quantity =? WHERE book_id = "+row);
+		   
+		            ps.setInt(1, (Integer) table.getValueAt(row, 1));
+		            ps.setString(2, (String) table.getValueAt(row, 2));
+		            ps.setString(3, (String) table.getValueAt(row, 3));
+		            ps.setInt(4, (Integer) table.getValueAt(row, 4));
+		  
+		            ps.executeUpdate(); 
+		            ps.close();
+		            cn.close();
+		  
+		        } catch (Exception ex) {
+		          ex.printStackTrace();
+		        }
+		
+		    }
+		    }
+		
+		
+		
+	/*	
+		AbstractAction action = new AbstractAction()
+		{
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        TableModelListener tcl = (TableModelListener)e.getSource();
+		        System.out.println("Row   : " + ((JTable) tcl).getSelectedRow());
+		        System.out.println("Column: " + tcl.getColumn());
+		        System.out.println("Old   : " + tcl.getOldValue());
+		        System.out.println("New   : " + tcl.getNewValue());
+		    }
+		};
+		
+	   */
+
+		
+	
 	}
 }
