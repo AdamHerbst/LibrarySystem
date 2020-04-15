@@ -24,7 +24,7 @@ import indwes.libsys.main.SqlConnection;
 import net.proteanit.sql.DbUtils;
 
 public class LibrarianView {
-
+	// This class provides the view the librarian will use to perform their job
 	public JFrame UIFrame;
 	private JTable table;
 	private JTextField bookTitleTxtField;
@@ -162,6 +162,9 @@ public class LibrarianView {
 		updateButton.setBounds(491, 85, 86, 35);
 		UIFrame.getContentPane().add(updateButton);
 
+		// *****************************************************
+		// CLEARS FIELDS
+		// *****************************************************
 		JButton clearButton = new JButton("Clear");
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -170,14 +173,17 @@ public class LibrarianView {
 		});
 		clearButton.setBounds(361, 85, 86, 35);
 		UIFrame.getContentPane().add(clearButton);
-		
+
+		// *****************************************************
+		// VIEW USERS AND THEIR BOOKS
+		// *****************************************************
 		JButton viewUsersButton = new JButton("View Users");
 		viewUsersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				printUsers();
 			}
-	});
-		
+		});
+
 		viewUsersButton.setBounds(614, 85, 114, 35);
 		UIFrame.getContentPane().add(viewUsersButton);
 	}
@@ -326,7 +332,7 @@ public class LibrarianView {
 		}
 
 	}
-	
+
 	// *****************************************************
 	// SHOW CURRENT USERS IN SYSTEM
 	// *****************************************************

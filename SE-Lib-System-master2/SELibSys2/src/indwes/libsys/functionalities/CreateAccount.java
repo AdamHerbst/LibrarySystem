@@ -20,7 +20,7 @@ import indwes.libsys.dao.LibraryDao;
 import indwes.libsys.main.SqlConnection;
 
 public class CreateAccount {
-
+	// This class enables the creation of the account
 	JFrame frmCreateANew;
 
 	/**

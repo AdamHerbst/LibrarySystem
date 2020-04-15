@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import indwes.libsys.functionalities.UserView;
 import indwes.libsys.main.SqlConnection;
 
 public class LibraryDao {
 
 	Connection connection = null;
 
+	// Book functions separated within DAO
 	public static boolean view(int bookID, String bookName, String bookAuthor, int bookQuantity) {
 		boolean status = false;
 
@@ -59,8 +59,6 @@ public class LibraryDao {
 		try {
 			Connection conn = SqlConnection.dbConnect();
 			String sql = "UPDATE Books SET book_name=?, book_author=?,quantity=? WHERE book_id=?";
-			// PreparedStatement preparedstm = conn.prepareStatement("UPDATE Books SET
-			// book_id = ?, book_name= ?, book_author = ?,quantity = ? WHERE book_id = ?");
 			PreparedStatement preparedstm = conn.prepareStatement(sql);
 			preparedstm.setString(1, bookName);
 			preparedstm.setString(2, bookAuthor);
